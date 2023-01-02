@@ -1,18 +1,14 @@
-import _ from "lodash";
-import printMe from "./print";
+function getComponent() {
+  return import("lodash")
+    .then(({ default: _ }) => {
+      const element = document.createElement("div");
+      element.innerHTML = _.join(["Hello", "webpack"], " ");
 
-export function component() {
-  const element = document.createElement("div");
-  const button = document.createElement("button");
-
-  element.innerHTML = _.join(["Hello", "webpack"], " ");
-
-  button.innerHTML = "Clcik Me and check the console!!!";
-  button.onclick = printMe;
-
-  element.append(button);
-
-  return element;
+      return element;
+    })
+    .catch((error) => "An Error occurred while loading the component");
 }
 
-document.body.appendChild(component());
+getComponent.then((component) => {
+  document.body.appendChild(component);
+});
